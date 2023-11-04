@@ -13,7 +13,7 @@ class User:
             username = input("Enter your username: ")
             password = input("Enter your password: ")
 
-            if """add authenticatio method here"""
+            if """add authenticatio method here""":
                 self.loggedIn = True
                 self.userID = username
                 print("Login successful. Welcome, {}!".format(username))
