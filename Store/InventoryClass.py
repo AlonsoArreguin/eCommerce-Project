@@ -40,9 +40,14 @@ class Inventory:
         cursor.execute ("SELECT * FROM inventory")
         rows = cursor.fetchall()
         if rows:
+            print("\n---------------------------------")
+            print("|         INVENTORY             |")
+            print("|       Viewing all books       |")
+            print("---------------------------------\n")
+            print(f"--- Showing {len(rows)} of {len(rows)} Products ---")
             #Displays all items in the inventory
             for row in rows:
-                print(f"ISBN: {row[0]}, Title: {row[1]}, Author: {row[2]}, Genre: {row[3]}, Pages: {row[4]}, Release Date: {row[5]}, Stock: {row[6]}")
+                print(f"ISBN: {row[0]}, Title: {row[1]}, Author: {row[2]}, Genre: {row[3]}, Pages: {row[4]}, Release Date: {row[5]}, Stock: {row[6]}")        
         else:
             print("Inventory is empty.")
     def searchInventory(self):
@@ -50,12 +55,14 @@ class Inventory:
         cursor = connection.cursor()
         cursor.execute(f"SELECT * FROM inventory WHERE Title LIKE ?", (f"%{title}%",))
         rows = cursor.fetchall()
+        print(f"----- You searched for \"{title}\": -----")
+        print(f"----- Showing {len(rows)} of {len(rows)} Products -----")
         if rows:
             #Displays specific title user inputted
             for row in rows:
                 print(f"ISBN: {row[0]}, Title: {row[1]}, Author: {row[2]}, Genre: {row[3]}, Pages: {row[4]}, Release Date: {row[5]}, Stock: {row[6]}")
         else:
-            print(f"The title '{title}' was not found in the inventory.")
+            print(f"'{title}' was not found in the inventory.")
     def decreaseStock(self, isbn):
         self.isbn = isbn
         isbn = input("Enter ISBN to search: ")
