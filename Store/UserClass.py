@@ -2,7 +2,7 @@ import sqlite3
 import sys
 
 try:
-    connection = sqlite3.connect("userdatabase.db")
+    connection = sqlite3.connect("userDB.db")
     print("Successful connection")
 except:
     print("Failed connection")
@@ -26,7 +26,7 @@ class User:
             password = input("Enter your password: ")
 
             try:
-                cursor.execute("SELECT * FROM {} WHERE username=? AND password=?".format(self.tableName), (username, password))
+                cursor.execute("SELECT * FROM {} WHERE Username=? AND Password=?".format(self.tableName), (username, password))
                 row = cursor.fetchone()
 
                 if row is not None:
@@ -61,7 +61,7 @@ class User:
 
         if self.loggedIn:
             try:
-                cursor.execute("SELECT username FROM {} WHERE userID=?".format(self.tableName), (self.userID,))
+                cursor.execute("SELECT Username FROM {} WHERE UserID=?".format(self.tableName), (self.userID,))
                 row = cursor.fetchone()
 
                 if row is not None:
@@ -82,16 +82,23 @@ class User:
             new_password = input("Enter password for new account: ")
 
             try:
-                cursor.execute("INSERT INTO {} (username, password) VALUES (?, ?)".format(self.tableName), (new_username, new_password))
-                connection.commit()
-                print("Account for {} created successfully!".format(new_username))
+                # Check if the username already exists
+                cursor.execute("SELECT username FROM {} WHERE username=?".format(self.tableName), (new_username,))
+                existing_username = cursor.fetchone()
+
+                if existing_username:
+                    print("Username already in use. Cannot create a new account.")
+                else:
+                    # Insert the new account if the username is not in use
+                    cursor.execute("INSERT INTO {} (Username, Password, UserID) VALUES (?, ?, ?)".format(self.tableName), (new_username, new_password, new_username))
+                    connection.commit()
+                    print("Account for {} created successfully!".format(new_username))
+
             except sqlite3.Error as e:
                 print("Error creating account: ", e)
-
-
-            print("Account for {} created successfully!".format(new_username))
         else:
-            print("username already in used. Cannot create a new account.")
+            print("User already logged in. Cannot create a new account.")
+
 
     def getLoggedIn(self):
 
