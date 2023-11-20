@@ -1,24 +1,8 @@
 # connect to sqlite and db file and invenory
 import sqlite3
 import sys
-from InventoryClass import Inventory
-## attempts to connect to database
-try:
-    connection = sqlite3.connect("inventorydatabase.db")
-    print("Successful connection")
-except:
-    print("Failed connection.")
+from InventoryClass import Inventory, connection, cursor
 
-try:
-    con = sqlite3.connect("cartdatabase.db")
-    print("Successful connection")
-except:
-    print("Failed connection")
-    ## exits the program if unsuccessful
-    sys.exit()
-
-cursor = connection.cursor()
-cur = con.cursor()
 
 class Cart:
     datbaseName = str

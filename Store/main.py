@@ -10,7 +10,7 @@ connection.execute('''
         Author text NOT NULL,
         Genre text NOT NULL,
         Pages integer NOT NULL,
-        ReleaseDate date NOT NULL
+        ReleaseDate date NOT NULL,
         Stock integer NOT NULL)
         ''')
 connection.execute('''
@@ -27,7 +27,7 @@ connection.execute('''
         Payment text NOT NULL)
         ''')
 connection.execute('''
-    CREATE TABLE IF NOT EXITS cart(
+    CREATE TABLE IF NOT EXISTS cart(
         UserID integer,
         ISBN integer,
         Quantity integer NOT NULL,
@@ -35,12 +35,33 @@ connection.execute('''
         FOREIGN KEY(isbn) REFERENCES inventory(isbn))
         ''')
 #create sample datasets here if they do not exist
-inventoryData =[
-    ('123456789', 'The Hunger Games', 'Suzanne Collins', 'Fiction', 300, '2008-09-14', 30),
-    ('987654321', 'The Woman in Me', 'Britney Spears', 'Memoir', 287, '2023-10-22', 60),
-    ('483753920', 'Im Glad My Mom Died', 'Jenette McCurdy', 'Memoir', 290, '2022-10-19', 20)
-]
+exiting = False
+user = User()
+def startMenu():
+    while not user.loggedIn:
+        print("\nStart Menu: ")
+        print("1. Login")
+        print("2. Create Account")
+        print("3. Logout")
+        #User inputs answer
+        try:
+            sel = int(input("Please select an option: "))
+        except ValueError:
+            sel = 0
+        #Options
+        if sel == 1:
+            user.login()
+        elif sel == 2:
+            user.createAccount()
+        elif sel == 3:
+            global exiting
+            exiting = True
+            break
+        else:
+            print("Error. Invalid option.")
+while not exiting:
+    startMenu()
 
-cursor.executemany('INSERT INTO Inventory VALUES (?, ?, ?, ?, ?, ?, ?), inventoryData')
-connection.commit()
+cursor.close()
+connection.close()
     

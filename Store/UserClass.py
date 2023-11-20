@@ -1,15 +1,6 @@
 import sqlite3
+from InventoryClass import connection, cursor 
 import sys
-
-try:
-    connection = sqlite3.connect("userDB.db")
-    print("Successful connection")
-except:
-    print("Failed connection")
-
-    sys.exit()
-
-cursor = connection.cursor()
 
 class User:
     def __init__(self, databaseName="", tableName="", loggedIn=False, userID=""):

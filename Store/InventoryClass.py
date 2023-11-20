@@ -18,6 +18,13 @@ class Inventory:
     databaseName = str
     tableName = str
     isbn = str
+    author = str
+    title = str
+    genre = str
+    pages = int
+    releasedate = int
+    stock = int
+
     
     
 
@@ -74,15 +81,7 @@ class Inventory:
         else:
             print(f"{isbn} not found in the inventory. Failed to decrease the stock.")
     
-#Test variables for view inventory   
-#inventory =  Inventory(databaseName = "inventorydatabase.db")
-#inventory.viewInventory(databaseName = "inventorydatabase.db")
-#Test variables for search inventory
-#inventory = Inventory(databaseName = "inventorydatabase.db")
-#inventory.searchInventory()
-#Test variables for decreaseStock
-#inventory = Inventory(databaseName = "inventorydatabase.db")
-#inventory.decreaseStock("isbn")
-cursor.close()
-connection.close()
+
+
+
     
