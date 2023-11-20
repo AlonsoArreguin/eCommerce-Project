@@ -35,3 +35,12 @@ connection.execute('''
         FOREIGN KEY(isbn) REFERENCES inventory(isbn))
         ''')
 #create sample datasets here if they do not exist
+inventoryData =[
+    ('123456789', 'The Hunger Games', 'Suzanne Collins', 'Fiction', 300, '2008-09-14', 30),
+    ('987654321', 'The Woman in Me', 'Britney Spears', 'Memoir', 287, '2023-10-22', 60),
+    ('483753920', 'Im Glad My Mom Died', 'Jenette McCurdy', 'Memoir', 290, '2022-10-19', 20)
+]
+
+cursor.executemany('INSERT INTO Inventory VALUES (?, ?, ?, ?, ?, ?, ?), inventoryData')
+connection.commit()
+    
