@@ -3,7 +3,7 @@ import sqlite3
 import sys
 ## attempts to connect to database
 try:
-    connection = sqlite3.connect("inventorydatabase.db")
+    connection = sqlite3.connect("project.db")
     print("Successful connection")
 except:
     print("Failed connection.")
