@@ -78,9 +78,32 @@ def mainMenu():
         #options
         if sel == 1:
             user.viewAccountInformation()
+        elif sel == 2:
+            inventoryMenu()
         else:
-            print("Invalid options")
+            print("Invalid option")
 
+def inventoryMenu():
+    while user.loggedIn:
+        #inventory menu
+        print("\nInventory Menu: ")
+        print("1. View Inventory")
+        print("2. Search Inventory")
+        print("3. Go back")
+        #input
+        try:
+            sel = int(input("Please select an option: "))
+        except ValueError:
+            sel = 0
+        #options
+        if sel == 1:
+            inventory.viewInventory(inventory.databaseName)
+        elif sel == 2:
+            inventory.searchInventory()
+        elif sel == 3:
+            break
+        else:
+            print("Invalid option")
 
 while not exiting:
     startMenu()
