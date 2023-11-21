@@ -80,6 +80,8 @@ def mainMenu():
             user.viewAccountInformation()
         elif sel == 2:
             inventoryMenu()
+        elif sel == 3:
+            cartMenu()
         else:
             print("Invalid option")
 
@@ -104,7 +106,32 @@ def inventoryMenu():
             break
         else:
             print("Invalid option")
-
+def cartMenu():
+    while user.loggedIn:
+        #cart menu
+        print("\nCart Menu: ")
+        print("1. View Cart")
+        print("2. Add items to Cart")
+        print("3. Remove an Item from Cart")
+        print("4. Check out")
+        print("5. Go Back")
+        try:
+            sel = int(input("Please select an option: "))
+        except ValueError:
+            sel = 0
+        #options
+        if sel == 1:
+            cart.viewCart(cart.datbaseName)
+        elif sel == 2:
+            cart.addToCart(cart.isbn)
+        elif sel == 3:
+            cart.removeFromCart(cart.isbn)
+        elif sel == 4:
+            cart.checkOut(cart.userID)
+        elif sel == 5:
+            break
+        else:
+            print("Invalid option")
 while not exiting:
     startMenu()
     mainMenu()
