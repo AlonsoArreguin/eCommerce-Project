@@ -11,19 +11,18 @@ class User:
 
 
     def login(self):
-
-        if not self.loggedIn:
-            username = input("Enter your username: ")
+       if not self.loggedIn:
+            userid = input("Enter your UserID: ")
             password = input("Enter your password: ")
 
             try:
-                cursor.execute("SELECT * FROM {} WHERE Username=? AND Password=?".format(self.tableName), (username, password))
+                cursor.execute("SELECT * FROM user WHERE userid=? AND password=?".format(self.tableName), (userid, password,))
                 row = cursor.fetchone()
 
                 if row is not None:
                     self.loggedIn = True
-                    self.userID = username
-                    print("Login successful. Welcome, {}!".format(username))
+                    self.userID = userid
+                    print("Login successful. Welcome, {}!".format(userid))
                     return True
                 else:
                     print("Login failed. Invalid username or password.")
@@ -32,7 +31,7 @@ class User:
             except sqlite3.Error as e:
                 print("Error during login:", e)
                 return False
-        else:
+       else:
             print("User already logged in.")
             return False
 
@@ -69,21 +68,29 @@ class User:
     def createAccount(self):
 
         if not self.loggedIn:
-            new_username = input("Enter username for new account: ")
-            new_password = input("Enter password for new account: ")
+            new_userid = input("Enter UserID for new account: ")
+            new_email = input("Enter Email: ")
+            new_password = input("Enter Password for new account: ")
+            new_firstname = input("Enter First Name: ")
+            new_lastname = input("Enter Last Name: ")
+            new_address = input("Enter Address: ")
+            new_city = input("Enter City: ")
+            new_state = input("Enter State: ")
+            new_zip = input("Enter ZIP: ")
+            new_payment = input("Enter Payment Method: ")
 
             try:
-                # Check if the username already exists
-                cursor.execute("SELECT username FROM {} WHERE username=?".format(self.tableName), (new_username,))
-                existing_username = cursor.fetchone()
+                # Check if the UserID already exists
+                cursor.execute("SELECT userid FROM user WHERE userid=?".format(self.tableName), (new_userid,))
+                existing_userid = cursor.fetchone()
 
-                if existing_username:
-                    print("Username already in use. Cannot create a new account.")
+                if existing_userid:
+                    print("UserID already in use. Cannot create a new account.")
                 else:
                     # Insert the new account if the username is not in use
-                    cursor.execute("INSERT INTO {} (Username, Password, UserID) VALUES (?, ?, ?)".format(self.tableName), (new_username, new_password, new_username))
+                    cursor.execute("INSERT INTO user (userid, email, password, firstname, lastname, address, city, state, zip, payment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)".format(self.tableName), (new_userid,new_email,new_password,new_firstname,new_lastname,new_address,new_city,new_state,new_zip,new_payment))
                     connection.commit()
-                    print("Account for {} created successfully!".format(new_username))
+                    print("Account for {} created successfully!".format(new_firstname))
 
             except sqlite3.Error as e:
                 print("Error creating account: ", e)
