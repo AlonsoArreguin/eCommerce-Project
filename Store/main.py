@@ -37,6 +37,8 @@ connection.execute('''
 #create sample datasets here if they do not exist
 exiting = False
 user = User()
+inventory = Inventory()
+cart = Cart()
 def startMenu():
     while not user.loggedIn:
         print("\nStart Menu: ")
@@ -59,8 +61,30 @@ def startMenu():
             break
         else:
             print("Error. Invalid option.")
+
+def mainMenu():
+    while user.loggedIn:
+        #main menu
+        print("\nMain Menu: ")
+        print("1. View Account Information ")
+        print("2. Inventory Information ")
+        print("3. Cart Information ")
+        print("4. Log out")
+        #input
+        try:
+            sel = int(input("Please select an option: "))
+        except ValueError:
+            sel = 0
+        #options
+        if sel == 1:
+            user.viewAccountInformation()
+        else:
+            print("Invalid options")
+
+
 while not exiting:
     startMenu()
+    mainMenu()
 
 cursor.close()
 connection.close()

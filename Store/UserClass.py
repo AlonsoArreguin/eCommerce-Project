@@ -51,18 +51,25 @@ class User:
 
         if self.loggedIn:
             try:
-                cursor.execute("SELECT Username FROM {} WHERE UserID=?".format(self.tableName), (self.userID,))
-                row = cursor.fetchone()
+                cursor.execute("SELECT * FROM user WHERE userid=?".format(self.tableName), (self.userID,))
+                account_info = cursor.fetchone()
 
-                if row is not None:
-                    username = row[0]
-                    print("Account information for username: ", username)
+                if account_info:
+                    print("Account Information:")
+                    print("UserID:", account_info[0])
+                    print("Email:", account_info[1])
+                    print("First Name:", account_info[3])
+                    print("Last Name:", account_info[4])
+                    print("Address:", account_info[5])
+                    print("City:", account_info[6])
+                    print("State:", account_info[7])
+                    print("ZIP:", account_info[8])
+                    print("Payment Method:", account_info[9])
                 else:
-                    print("Username not found.")
+                    print("Account not found.")
+
             except sqlite3.Error as e:
-                print("Error fetching account information:", e)
-        else:
-            print("User not logged in. Please login to view account information.")
+                print("Error retrieving account information: ", e)
 
 
     def createAccount(self):
