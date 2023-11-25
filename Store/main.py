@@ -44,7 +44,7 @@ def startMenu():
         print("\nStart Menu: ")
         print("1. Login")
         print("2. Create Account")
-        print("3. Logout")
+        print("3. Exit")
         #User inputs answer
         try:
             sel = int(input("Please select an option: "))
@@ -82,6 +82,8 @@ def mainMenu():
             inventoryMenu()
         elif sel == 3:
             cartMenu()
+        elif sel == 4:
+            user.logout()
         else:
             print("Invalid option")
 
