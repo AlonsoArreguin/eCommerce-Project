@@ -41,6 +41,8 @@ def viewCart(userID, databaseName):
         else:
             print("Inventory is empty.")
 def addToCart(userID, ISBN):
+    userID.isbn = isbn
+    isbn = input("Enter ISBN to search: ")
     cursor = connection.cursor()
     cursor.execute(f"UPDATE Inventory SET Stock = Stock + 1 WHERE isbn = ?", (isbn, ))
     connection.commit()
@@ -49,6 +51,8 @@ def addToCart(userID, ISBN):
 
 
 def removeFromCart(userID, ISBN): #do the same thing as add but instead subtract
+    userID.isbn = isbn
+    isbn = input("Enter ISBN to search: ")
     cursor = connection.cursor()
     cursor.execute(f"UPDATE Inventory SET Stock = Stock - 1 WHERE isbn = ?", (isbn, ))
     connection.commit()
