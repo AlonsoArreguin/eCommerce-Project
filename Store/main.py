@@ -109,6 +109,7 @@ def inventoryMenu():
         else:
             print("Invalid option")
 def cartMenu():
+    cart.userID = user.userID
     while user.loggedIn:
         #cart menu
         print("\nCart Menu: ")
@@ -123,11 +124,11 @@ def cartMenu():
             sel = 0
         #options
         if sel == 1:
-            cart.viewCart(cart.datbaseName)
+            cart.viewCart(cart.userID, cart.datbaseName)
         elif sel == 2:
-            cart.addToCart(cart.isbn)
+            cart.addToCart(cart.userID, cart.isbn)
         elif sel == 3:
-            cart.removeFromCart(cart.isbn)
+            cart.removeFromCart(cart.userID, cart.isbn)
         elif sel == 4:
             cart.checkOut(cart.userID)
         elif sel == 5:

@@ -17,7 +17,7 @@ class Cart:
     def viewCart(userID, databaseName):
         userID.databaseName = databaseName
         cursor = connection.cursor()
-        cursor.execute ("SELECT * FROM inventory")
+        cursor.execute ("SELECT * FROM cart")
         rows = cursor.fetchall()
         if rows:
             print("\n---------------------------------")
@@ -31,16 +31,20 @@ class Cart:
         else:
             print("Inventory is empty.")
     def addToCart(userID, isbn):
+        userID.isbn = isbn
+        isbn = input("Enter ISBN to search: ")
         cursor = connection.cursor()
-        cursor.execute(f"UPDATE Inventory SET Stock = Stock + 1 WHERE isbn = ?", (isbn, ))
+        cursor.execute(f"UPDATE cart SET Stock = Stock + 1 WHERE isbn = ?", (isbn, ))
         connection.commit()
         if cursor.rowcount > 0:
             print(f"ISBN {isbn} item added  successfully.") #no need for else here since it will always be true
 
 
     def removeFromCart(userID, isbn): #do the same thing as add but instead subtract
+        userID.isbn = isbn
+        isbn = input("Enter ISBN to search: ")
         cursor = connection.cursor()
-        cursor.execute(f"UPDATE Inventory SET Stock = Stock - 1 WHERE isbn = ?", (isbn, ))
+        cursor.execute(f"UPDATE cart SET Stock = Stock - 1 WHERE isbn = ?", (isbn, ))
         connection.commit()
         if cursor.rowcount > 0:
             print(f"ISBN {isbn} item removed successfully.")
@@ -55,7 +59,7 @@ class Cart:
             for item in rows:
                 inventory.decreaseStock(userID)
             #remove all items from user's cart after checkout
-            cursor.execute("DELETE FROM Cart WHERE userID = ?",(userID,))
+            cursor.execute("DELETE FROM cart WHERE userID = ?",(userID,))
             connection.commit()
             print(f"(userID) has checked out. Cart items removed and stock updated.")   
         else:
