@@ -44,7 +44,7 @@ def addToCart(userID, ISBN):
     userID.isbn = isbn
     isbn = input("Enter ISBN to search: ")
     cursor = connection.cursor()
-    cursor.execute(f"UPDATE Inventory SET Stock = Stock + 1 WHERE isbn = ?", (isbn, ))
+    cursor.execute(f"UPDATE Cart SET Stock = Stock + 1 WHERE isbn = ?", (isbn, ))
     connection.commit()
     if cursor.rowcount > 0:
         print(f"ISBN {isbn} item added  successfully." #no need for else here since it will always be true
@@ -54,7 +54,7 @@ def removeFromCart(userID, ISBN): #do the same thing as add but instead subtract
     userID.isbn = isbn
     isbn = input("Enter ISBN to search: ")
     cursor = connection.cursor()
-    cursor.execute(f"UPDATE Inventory SET Stock = Stock - 1 WHERE isbn = ?", (isbn, ))
+    cursor.execute(f"UPDATE Cart SET Stock = Stock - 1 WHERE isbn = ?", (isbn, ))
     connection.commit()
     if cursor.rowcount > 0:
         print(f"ISBN {isbn} item added  successfully."
