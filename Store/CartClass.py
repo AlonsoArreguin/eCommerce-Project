@@ -27,7 +27,7 @@ class Cart:
             print(f"--- Showing {len(rows)} of {len(rows)} Products ---")
             #Displays all items in the cart
             for row in rows:
-                print(f"ISBN: {row[0]}, Title: {row[1]}, Author: {row[2]}, Genre: {row[3]}, Pages: {row[4]}, Release Date: {row[5]}, Stock: {row[6]}")        
+                print(f"ISBN: {row[1]}, Title: {row[2]}, Author: {row[3]}, Genre: {row[4]}, Pages: {row[5]}, Release Date: {row[6]}, Stock: {row[7]}")        
         else:
             print("Cart is empty.")
     def addToCart(userID, isbn):
@@ -35,6 +35,7 @@ class Cart:
         isbn = input("Enter ISBN to search: ")
         cursor = connection.cursor()
         cursor.execute(f"INSERT INTO cart (isbn, title, author, genre, pages, releasedate, stock) SELECT isbn, title, author, genre, pages, releasedate, stock FROM inventory WHERE ISBN = ?", (isbn))
+        cursor.execute(f"UPDATE cart SET stock = 1 where isbn = ?", (isbn))
         connection.commit()
         if cursor.rowcount > 0:
             print(f"ISBN {isbn} item added  successfully.") #no need for else here since it will always be true
@@ -44,7 +45,7 @@ class Cart:
         userID.isbn = isbn
         isbn = input("Enter ISBN to search: ")
         cursor = connection.cursor()
-        cursor.execute(f"UPDATE cart SET Stock = Stock - 1 WHERE isbn = ?", (isbn, ))
+        cursor.execute(f"DELETE FROM cart WHERE isbn = ?", (isbn, ))
         connection.commit()
         if cursor.rowcount > 0:
             print(f"ISBN {isbn} item removed successfully.")
@@ -53,13 +54,14 @@ class Cart:
     def checkOut(userID):
         inventory = Inventory(databaseName = "inventorydatabase.db", tableName = "isbn")
         cursor = connection.cursor()
-        cursor.execute ("SELECT isbn FROM inventory WHERE userID = ?", (userID,))
+        cursor.execute ("SELECT * FROM cart")
         rows = cursor.fetchall()
         if rows: 
             for item in rows:
-                inventory.decreaseStock(userID)
+                cursor.execute(f"UPDATE Inventory SET Stock = Stock - 1 WHERE isbn = {item[1]}")
+                connection.commit()
             #remove all items from user's cart after checkout
-            cursor.execute("DELETE FROM cart WHERE userID = ?",(userID,))
+            cursor.execute(f"DELETE FROM cart")
             connection.commit()
             print(f"(userID) has checked out. Cart items removed and stock updated.")   
         else:

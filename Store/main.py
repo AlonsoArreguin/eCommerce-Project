@@ -35,7 +35,7 @@ connection.execute('''
         genre text NOT NULL,
         pages integer NOT NULL,
         releasedate date NOT NULL,
-        stock integer NOT NULL)   
+        stock integer IDENTITY(1,1) NOT NULL)   
         ''')
 #create sample datasets here if they do not exist
 exiting = False
@@ -133,7 +133,7 @@ def cartMenu():
         elif sel == 3:
             cart.removeFromCart(cart.isbn)
         elif sel == 4:
-            cart.checkOut(cart.userID)
+            cart.checkOut()
         elif sel == 5:
             break
         else:
