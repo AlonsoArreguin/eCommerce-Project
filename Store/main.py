@@ -30,9 +30,12 @@ connection.execute('''
     CREATE TABLE IF NOT EXISTS cart(
         userid integer,
         isbn integer,
-        quantity integer NOT NULL,
-        FOREIGN KEY(userid) REFERENCES user(userid)
-        FOREIGN KEY(isbn) REFERENCES inventory(isbn))
+        title text NOT NULL, 
+        author text NOT NULL,
+        genre text NOT NULL,
+        pages integer NOT NULL,
+        releasedate date NOT NULL,
+        stock integer IDENTITY(1,1) NOT NULL)   
         ''')
 #create sample datasets here if they do not exist
 exiting = False
@@ -124,13 +127,13 @@ def cartMenu():
             sel = 0
         #options
         if sel == 1:
-            cart.viewCart(cart.userID, cart.datbaseName)
+            cart.viewCart(cart.datbaseName)
         elif sel == 2:
-            cart.addToCart(cart.userID, cart.isbn)
+            cart.addToCart(cart.isbn)
         elif sel == 3:
-            cart.removeFromCart(cart.userID, cart.isbn)
+            cart.removeFromCart(cart.isbn)
         elif sel == 4:
-            cart.checkOut(cart.userID)
+            cart.checkOut()
         elif sel == 5:
             break
         else:
