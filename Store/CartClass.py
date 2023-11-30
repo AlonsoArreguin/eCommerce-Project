@@ -29,12 +29,12 @@ class Cart:
             for row in rows:
                 print(f"ISBN: {row[0]}, Title: {row[1]}, Author: {row[2]}, Genre: {row[3]}, Pages: {row[4]}, Release Date: {row[5]}, Stock: {row[6]}")        
         else:
-            print("Inventory is empty.")
+            print("Cart is empty.")
     def addToCart(userID, isbn):
         userID.isbn = isbn
         isbn = input("Enter ISBN to search: ")
         cursor = connection.cursor()
-        cursor.execute(f"UPDATE cart SET Stock = Stock + 1 WHERE isbn = ?", (isbn, ))
+        cursor.execute(f"INSERT INTO cart (isbn, title, author, genre, pages, releasedate, stock) SELECT isbn, title, author, genre, pages, releasedate, stock FROM inventory WHERE ISBN = ?", (isbn))
         connection.commit()
         if cursor.rowcount > 0:
             print(f"ISBN {isbn} item added  successfully.") #no need for else here since it will always be true
